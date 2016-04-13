@@ -19,7 +19,7 @@ public final class PortHandler implements PortHandlerOperations, SerialPortEvent
 
     private static PortHandler uniqueInstance;
 
-    private static final String defaultComPort = "COM1";
+    private static final String defaultComPort = "COM2";
     private static SerialPort comPort;
     private static ArrayList input;
     private static boolean portOpened = false;
@@ -32,19 +32,15 @@ public final class PortHandler implements PortHandlerOperations, SerialPortEvent
     public static synchronized PortHandler getHandler() {
         if (uniqueInstance == null) {
             uniqueInstance = new PortHandler();
+            InitPortHandlerValues();
         }
-        InitPortHandlerValues();
+
         return uniqueInstance;
     }
 
     private static void InitPortHandlerValues()
     {
-        try {
-            comPort = new SerialPort(defaultComPort);
-            comPort.addEventListener(uniqueInstance);
-        } catch (SerialPortException ex) {
-            logger.error(String.valueOf(ex));
-        }
+        comPort = new SerialPort(defaultComPort);
         input = new ArrayList();
     }
 
@@ -66,10 +62,15 @@ public final class PortHandler implements PortHandlerOperations, SerialPortEvent
         }
         else{
             try {
-                comPort.setParams(baud, databits, stopbits, parity);
+                logger.info("------------------------------------------------------------");
+                logger.info("-------------{ Initilizing ComPort ...        }-------------");
                 comPort.openPort();
+                comPort.setParams(baud, databits, stopbits, parity);
+                comPort.addEventListener(uniqueInstance);
+                logger.info("-------------{ Initilized ComPort ...         }-------------");
+                logger.info("------------------------------------------------------------");
             } catch (SerialPortException ex) {
-                logger.error(String.valueOf(ex));
+                logger.error(String.valueOf(ex.getMessage()));
             }
         }
     }
@@ -85,6 +86,8 @@ public final class PortHandler implements PortHandlerOperations, SerialPortEvent
 
     @Override
     public void serialEvent(SerialPortEvent spe) {
+        logger.info("------------------------------------------------------------");
+        logger.info("-------------{ Received Data       ...        }-------------");
 
         if(SerialPortEvent.RXCHAR == spe.getEventType()){
             int bytes = 0;
@@ -102,42 +105,28 @@ public final class PortHandler implements PortHandlerOperations, SerialPortEvent
                 logger.error(ex.getMessage());
             }
 
-            for(byte b : buffer) {
-                input.add(b);
-            }
 
             if (HubPackageChecker.getChecker().isEndOfReceivedPackage(buffer))
             {
-                input.clear();
-
                 if (buffer.length < HubPackageRepository.getInstance().getPackageLen() -1)
                     return;
 
-                byte[] hubPackage = new byte[HubPackageRepository.getInstance().getPackageLen()];
-
-                HubPackageChecker.getChecker().check(hubPackage, hubPackage[HubPackageRepository.getInstance().getCommandOffset()], true);
+                HubPackageChecker.getChecker().check(buffer, buffer[HubPackageRepository.getInstance().getCommandOffset()], false);
+                logger.info("------------------------------------------------------------");
+                logger.info("-------------{ Checked  Data       ...        }-------------");
 
                 try {
                     HubInboundCommandBuilderRepository
                             .getBuilder()
-                            .get((byte) hubPackage[HubPackageRepository.getInstance().getCommandOffset()])
-                            .build(hubPackage);
+                            .get(buffer[HubPackageRepository.getInstance().getCommandOffset()])
+                            .build(buffer);
+                    logger.info("------------------------------------------------------------");
+                    logger.info("-------------{ Built Data       ...           }-------------");
                 } catch (IOException e) {
                     logger.error(e.getMessage());
                 }
             }
             input.clear();
-        }
-    }
-
-    private void appendComPortData() throws SerialPortException {
-        int bytes = comPort.getInputBufferBytesCount();
-        byte[] buffer = new byte[bytes];
-
-        buffer = comPort.readBytes(bytes);
-
-        for(byte b : buffer) {
-            input.add(b);
         }
     }
 }

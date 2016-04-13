@@ -22,9 +22,9 @@ public final class HubPackageChecker implements PackageCheckerOperations {
     public static synchronized HubPackageChecker getChecker() {
         if (uniqueInstance == null) {
             uniqueInstance = new HubPackageChecker();
-            logger.debug("------------------------------------------------");
-            logger.debug("------------{ Hub Package Checker Initialized }--------------");
-            logger.debug("------------------------------------------------");
+            logger.info("------------------------------------------------");
+            logger.info("------------{ Hub Package Checker Initialized }--------------");
+            logger.info("------------------------------------------------");
         }
         return uniqueInstance;
     }

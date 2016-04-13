@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component;
 @Component
 public abstract class HubInboundCommandBuilder implements Runnable{
 
-    @Value("${azureIoTHubConnStr}")
+    @Value("${message:azureIoTHubConnStr}")
     protected static String azureIoTHubConnStr;
 
-    @Value("${hubSn}")
+    @Value("${message:hubSn}")
     protected static String hubSn;
 
-    @Value("${wanAddress}")
+    @Value("${message:wanAddress}")
     protected static String wanAddress;
 
     protected MibeezData mBeezData;
@@ -54,7 +54,7 @@ public abstract class HubInboundCommandBuilder implements Runnable{
 
         for (int i = 0; i < HubPackageRepository.getInstance().getLanAddressShellLen(); i++)
         {
-            sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getLanAddressShellOffset() + i]).getBytes());
+            sb.append((hubPackage[HubPackageRepository.getInstance().getLanAddressShellOffset() + i]));
         }
 
         buildOutMessage(MessageStatus.MESSAGE_DEBUG, String.format("LanAddress:%s", sb.toString()));
@@ -66,13 +66,13 @@ public abstract class HubInboundCommandBuilder implements Runnable{
         StringBuilder sb = new StringBuilder();
         sb.append("X.");
         sb.append("0");
-        sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getTiltValueLen()]).getBytes());
+        sb.append((hubPackage[HubPackageRepository.getInstance().getTiltValueLen()]));
         sb.append("Y.");
         sb.append("0");
-        sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getTiltValueLen() + 1]).getBytes());
+        sb.append((hubPackage[HubPackageRepository.getInstance().getTiltValueLen() + 1]));
         sb.append("Z.");
         sb.append("0");
-        sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getTiltValueLen() + 2]).getBytes());
+        sb.append((hubPackage[HubPackageRepository.getInstance().getTiltValueLen() + 2]));
 
         buildOutMessage(MessageStatus.MESSAGE_DEBUG, String.format("Tilt Value:%s", sb.toString()));
         return sb.toString();
@@ -85,19 +85,19 @@ public abstract class HubInboundCommandBuilder implements Runnable{
         switch (type){
             case EXTERNAL: {
                 for (int i = 0; i < HubPackageRepository.getInstance().getExternalTempValueLen(); i++) {
-                    sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getExternalTempValueOffset() + i]).getBytes());
+                    sb.append(hubPackage[HubPackageRepository.getInstance().getExternalTempValueOffset() + i]);
                     sb.append(".");
                 }
             }break;
             case BROOD: {
                 for (int i = 0; i < HubPackageRepository.getInstance().getBroodTempValueLen(); i++) {
-                    sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getBroodTempValueOffset() + i]).getBytes());
+                    sb.append(hubPackage[HubPackageRepository.getInstance().getBroodTempValueOffset() + i]);
                     sb.append(".");
                 }
             }break;
             case INTERNAL: {
                 for (int i = 0; i < HubPackageRepository.getInstance().getInternalTempValueLen(); i++) {
-                    sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getInternalTempValueOffset() + i]).getBytes());
+                    sb.append(hubPackage[HubPackageRepository.getInstance().getInternalTempValueOffset() + i]);
                     sb.append(".");
                 }
             }break;
@@ -113,7 +113,7 @@ public abstract class HubInboundCommandBuilder implements Runnable{
 
         for (int i = 0; i < HubPackageRepository.getInstance().getBatteryValueLen(); i++)
         {
-            sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getBatteryValueOffset() + i]).getBytes());
+            sb.append(hubPackage[HubPackageRepository.getInstance().getBatteryValueOffset() + i]);
         }
         sb.append("/10");
         buildOutMessage(MessageStatus.MESSAGE_DEBUG, String.format("Battery Value:%s", sb.toString()));
@@ -126,7 +126,7 @@ public abstract class HubInboundCommandBuilder implements Runnable{
 
         for (int i = 0; i < HubPackageRepository.getInstance().getHumidityValueLen(); i++)
         {
-            sb.append(String.valueOf(hubPackage[HubPackageRepository.getInstance().getHumidityValueOffset() + i]).getBytes());
+            sb.append(hubPackage[HubPackageRepository.getInstance().getHumidityValueOffset() + i]);
         }
         sb.append("%RH");
         buildOutMessage(MessageStatus.MESSAGE_DEBUG, String.format("Humidity Value:%s", sb.toString()));
@@ -135,8 +135,8 @@ public abstract class HubInboundCommandBuilder implements Runnable{
 
     protected void buildAndSendAsync(byte[] hubPackage) {
         buildInboundMessage(hubPackage);
-        Thread t0 = new Thread(this);
-        t0.start();
+        //Thread t0 = new Thread(this);
+        //t0.start();
     }
 
     protected abstract void buildOutMessage(MessageStatus status, String message);

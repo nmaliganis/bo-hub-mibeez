@@ -13,6 +13,10 @@ public class AsyncTiltInboundCommandBuilder extends HubInboundCommandBuilder
     @Override
     public void build(byte[] hubPackage) throws IOException {
         buildAndSendAsync(hubPackage);
+/*
+        Thread t0 = new Thread(this);
+        t0.start();
+*/
     }
 
     @Override

@@ -4,17 +4,17 @@ public final class HubPackageRepository {
     private static HubPackageRepository uniqueInstance;
 
     private HubPackageRepository() {
-        this.startOfMessageCode = '{';
-        this.endOfMessageCode = '}';
-        this.ackCode = '@';
-        this.nackCode = '!';
-        this.asyncTamperIdentifiedCode = '#';
-        this.asyncTiltEventCode = '$';
-        this.asyncBatteryLevelEventCode = '%';
-        this.asyncInternalTempEventCode = '^';
-        this.asyncExternalTempEventCode = '&';
-        this.asyncGpsEventCode = '*';
-        this.asyncConnectionRequestedCode = '-';
+        this.startOfMessageCode = '{'; //7B
+        this.endOfMessageCode = '}'; //7D
+        this.ackCode = '@'; //40
+        this.nackCode = '!'; //21
+        this.asyncTamperIdentifiedCode = '#';   //23
+        this.asyncTiltEventCode = '$';  //24
+        this.asyncBatteryLevelEventCode = '%';  //25
+        this.asyncInternalTempEventCode = '^';  //5E
+        this.asyncExternalTempEventCode = '&';  //26
+        this.asyncGpsEventCode = '*';   //2A
+        this.asyncConnectionRequestedCode = '-';    //2D
 
         this.startOfMessageLen = 2;
         this.lanAddressShellLen = 4;
