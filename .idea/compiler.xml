@@ -23,14 +23,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="spring-boot-test" />
-      </profile>
-      <profile default="false" name="Annotation profile for mibeez" enabled="true">
-        <sourceOutputDir name="target\generated-sources\annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="mibeez" />
+        <module name="spring-boot-test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

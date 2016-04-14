@@ -25,7 +25,7 @@ public final class HubPackageRepository {
         this.endOfMessageLen = 2;
 
 
-        this.packageLen = (byte)(startOfMessageLen
+        this.packageLen = (byte) (startOfMessageLen
                 + lanAddressShellLen
                 + lanAddressHubLen
                 + commandLen
@@ -49,8 +49,8 @@ public final class HubPackageRepository {
         this.tamperActionOffset = (byte)(batteryValueOffset + batteryValueLen);
         this.humidityValueOffset = (byte)(tamperActionOffset + tamperActionLen);
         this.externalTempValueOffset = (byte)(humidityValueOffset + humidityValueLen);
-        this.internalTempValueOffset = (byte)(externalTempValueOffset  + externalTempValueLen);
-        this.broodTempValueOffset = (byte)(internalTempValueOffset  + internalTempValueLen);
+        this.InternalTempValueOffset = (byte)(externalTempValueOffset  + externalTempValueLen);
+        this.broodTempValueOffset = (byte)(InternalTempValueOffset  + internalTempValueLen);
         this.tiltValueOffset = (byte)(broodTempValueOffset  + broodTempValueLen);
         this.latitudeValueOffset = (byte)(tiltValueOffset  + tiltValueLen);
         this.longitudeValueOffset = (byte)(latitudeValueOffset  + latitudeValueLen);
@@ -83,9 +83,9 @@ public final class HubPackageRepository {
         return externalTempValueOffset;
     }
 
-    private int internalTempValueOffset;
+    private int InternalTempValueOffset;
     public int getInternalTempValueOffset() {
-        return internalTempValueOffset;
+        return InternalTempValueOffset;
     }
 
     private int broodTempValueOffset;
@@ -262,13 +262,11 @@ public final class HubPackageRepository {
     }
 
     private final byte totalPackageLenOffset;
-    public byte getTotalPackageLenOffset() {
-        return totalPackageLenOffset;
+    public byte getTotalPackageLenOffset() { return totalPackageLenOffset;
     }
 
     private final byte packageLen;
-    public byte getPackageLen()
-    {
+    public byte getPackageLen(){
         return packageLen;
     }
 
@@ -278,56 +276,32 @@ public final class HubPackageRepository {
         return packageToBeCheckedForCrcLen;
     }
 
-
-    public byte getBatteryValueLen() {
-        return batteryValueLen;
-    }
-
     private final byte batteryValueLen = 1;
+    public byte getBatteryValueLen() { return batteryValueLen; }
 
-    private final byte humidityValueLen = 1;
-    public byte getHumidityValueLen() {
-        return humidityValueLen;
-    }
+    private final byte humidityValueLen = 2;
+    public byte getHumidityValueLen() {return humidityValueLen;}
 
     private final byte longitudeValueLen = 4;
-    public byte getLongitudeValueLen() {
-        return longitudeValueLen;
-    }
+    public byte getLongitudeValueLen() { return longitudeValueLen; }
 
     private final byte latitudeValueLen = 4;
-    public byte getLatitudeValueLen() {
+    public byte getLatitudeValueLen() { return latitudeValueLen;}
 
-        return latitudeValueLen;
-    }
+    private final byte internalTempValueLen = 4;
+    public byte getInternalTempValueLen() { return internalTempValueLen; }
 
-    private final byte internalTempValueLen = 2;
-    public byte getInternalTempValueLen() {
+    private final byte broodTempValueLen = 4;
+    public byte getBroodTempValueLen() { return broodTempValueLen; }
 
-        return internalTempValueLen;
-    }
+    private final byte externalTempValueLen = 4;
+    public byte getExternalTempValueLen() { return externalTempValueLen; }
 
-    private final byte broodTempValueLen = 2;
-    public byte getBroodTempValueLen() {
-
-        return broodTempValueLen;
-    }
-
-    private final byte externalTempValueLen = 2;
-    public byte getExternalTempValueLen() {
-
-        return externalTempValueLen;
-    }
-
-    private final byte tiltValueLen = 3;
-    public byte getTiltValueLen() {
-
-        return tiltValueLen;
-    }
+    private final byte tiltDataLen = 2;
+    public byte getTiltDataLen() { return tiltDataLen; }
+    private final byte tiltValueLen = 9;
+    public byte getTiltValueLen() { return tiltValueLen; }
 
     private final byte tamperActionLen = 1;
-    public byte getTamperActionLen() {
-
-        return tamperActionLen;
-    }
+    public byte getTamperActionLen() { return tamperActionLen; }
 }

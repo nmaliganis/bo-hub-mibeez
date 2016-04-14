@@ -11,12 +11,10 @@ logging:
   level:
     root: INFO
 
-spring:
+configuration:
     application:
         name: bo-hub-mibeez
 
 server:
     port: 9000
 
-configuration:
-  projectName : mnikolaos

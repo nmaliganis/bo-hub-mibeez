@@ -1,0 +1,60 @@
+7b7b3030303030303031404e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e117d7d
+
+7b7b      Start of Message
+30303030  Host Address
+30303031  Source Address
+40		  Command
+4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e Message
+11 crc
+7d7d End of Message
+
+37 31 75 1856 2341 2385 303730883127 37967740 23736160 4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e
+Battery
+
+{"hubSn":"XXX1","lanAddress":"0001","wanAddress":"192.168.2.5",
+"tilt":"X.00.00.Y.00.00.Z.90.00",
+"internalTemp":18.567161593850312,
+"externalTemp":23.419003538516819,
+"humidity":"75%RH",
+"tamper":"normal",
+"latitude":37.96774,
+"longitude":23.73616}
+
+ batteryValueLen = 1;
+ tamperActionLen = 1;
+ humidityValueLen = 1;
+ internalTempValueLen = 2;
+ broodTempValueLen = 2;
+ externalTempValueLen = 2;
+ tiltValueLen = 6;
+ latitudeValueLen = 4;
+ longitudeValueLen = 4;
+
+ 23
+
+ batteryValueLen = 1;
+ tamperActionLen = 1;
+ humidityValueLen = 2;
+ internalTempValueLen = 4;
+ broodTempValueLen = 4;
+ externalTempValueLen = 4;
+ tiltValueLen = 9;
+ latitudeValueLen = 4;
+ longitudeValueLen = 4;
+
+ 30
+
+37 31 3735 31383536 32333431 32333835 303337303838313237 37967740 23736160 4e4e4e4e4e4e4e
+
+	batteryValueOffset
+    tamperActionOffset
+    humidityValueOffset
+    externalTempValueOffset
+    internalTempValueOffset
+    broodTempValueOffset
+    tiltValueOffset
+    latitudeValueOffset
+    longitudeValueOffset
+
+	37317518562341238530373088312737967740237361604e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e
+	3731373531383536323334313233383530333730383831323737967740237361604e4e4e4e4e4e4e

@@ -1,10 +1,10 @@
 package com.eu.mibeez.service;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class Service {
+@Service
+public class HubService {
 
     @Value("${message:World}")
     private String msg;

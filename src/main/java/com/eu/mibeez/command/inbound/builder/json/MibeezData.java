@@ -1,5 +1,6 @@
 package com.eu.mibeez.command.inbound.builder.json;
 
+import com.eu.mibeez.command.inbound.builder.type.TamperState;
 import com.google.gson.Gson;
 
 public class MibeezData {

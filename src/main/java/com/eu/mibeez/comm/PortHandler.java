@@ -19,7 +19,7 @@ public final class PortHandler implements PortHandlerOperations, SerialPortEvent
 
     private static PortHandler uniqueInstance;
 
-    private static final String defaultComPort = "COM6";
+    private static final String defaultComPort = "COM2";
     private static SerialPort comPort;
     private static ArrayList input;
     private static boolean portOpened = false;
