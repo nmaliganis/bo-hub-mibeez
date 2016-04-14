@@ -1,42 +1,35 @@
 package com.eu.mibeez.command.inbound.builder;
 
-
 import com.eu.mibeez.comm.repository.HubPackageRepository;
 import com.eu.mibeez.command.inbound.builder.callbaks.EventCallback;
 import com.eu.mibeez.command.inbound.builder.json.MibeezData;
 import com.eu.mibeez.command.inbound.builder.json.TamperState;
 import com.eu.mibeez.command.inbound.builder.message.MessageStatus;
 import com.eu.mibeez.command.inbound.builder.type.TempType;
+import com.eu.mibeez.config.AzureProperties;
 import com.microsoft.azure.iothub.DeviceClient;
 import com.microsoft.azure.iothub.IotHubClientProtocol;
 import com.microsoft.azure.iothub.Message;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
 public abstract class HubInboundCommandBuilder implements Runnable{
 
-    @Value("${message:azureIoTHubConnStr}")
-    protected static String azureIoTHubConnStr;
-
-    @Value("${message:hubSn}")
-    protected static String hubSn;
-
-    @Value("${message:wanAddress}")
-    protected static String wanAddress;
-
-    protected MibeezData mBeezData;
+    protected MibeezData mBeezData = new MibeezData();
     protected static IotHubClientProtocol protocol = IotHubClientProtocol.AMQPS;
-
     private byte[] batteryValue;
     protected static final org.slf4j.Logger logger = LoggerFactory.getLogger(AsyncTiltInboundCommandBuilder.class);
+        private static String connString = "HostName=IoTBusiness.azure-devices.net;DeviceId=iot;SharedAccessKey=Xz8VIOJQNutbGTj9//MPsnn86k3ShzJErY8IaBQDOoM=";
 
-
+    
     protected void buildInboundMessage(byte[] hubPackage) {
-        mBeezData.hubSn = hubSn;
+        mBeezData.hubSn = AzureProperties.getProperties().getHubSn();
         mBeezData.lanAddress = extractLanAddress(hubPackage); //"0001";
-        mBeezData.wanAddress = wanAddress;
+        mBeezData.wanAddress = AzureProperties.getProperties().getWanAddress();
         mBeezData.externalTemp = extractTempValue(TempType.EXTERNAL, hubPackage); //"29.31";
         mBeezData.broodTemp = extractTempValue(TempType.BROOD, hubPackage); // "28.75";
         mBeezData.internalTemp = extractTempValue(TempType.INTERNAL, hubPackage); //"28.31";
@@ -135,8 +128,8 @@ public abstract class HubInboundCommandBuilder implements Runnable{
 
     protected void buildAndSendAsync(byte[] hubPackage) {
         buildInboundMessage(hubPackage);
-        //Thread t0 = new Thread(this);
-        //t0.start();
+        Thread t0 = new Thread(this);
+        t0.start();
     }
 
     protected abstract void buildOutMessage(MessageStatus status, String message);
@@ -144,8 +137,8 @@ public abstract class HubInboundCommandBuilder implements Runnable{
     @Override
     public void run() {
         try {
-            DeviceClient client = null;
-            client = new DeviceClient(azureIoTHubConnStr, protocol);
+            DeviceClient client;
+            client = new DeviceClient(AzureProperties.getProperties().getIotHub(), protocol);
             client.open();
 
             String msgStr = mBeezData.serialize();

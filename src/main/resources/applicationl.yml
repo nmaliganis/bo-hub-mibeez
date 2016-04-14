@@ -1,0 +1,22 @@
+error:
+  whitelabel:
+    enabled: false
+
+azure:
+  hubSn_id: XXX1
+  wanAddress_id: 1234
+  iotHub_id: 5678
+
+logging:
+  level:
+    root: INFO
+
+spring:
+    application:
+        name: bo-hub-mibeez
+
+server:
+    port: 9000
+
+configuration:
+  projectName : mnikolaos

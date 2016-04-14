@@ -7,11 +7,25 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @Component
+@EnableConfigurationProperties
 public class AppInitialization implements CommandLineRunner {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(AsyncTiltInboundCommandBuilder.class);
 
+    @Autowired
+    void setAzureProperties(AzureProperties cp) {
+            logger.info("AzureProperties.hubSn = "
+                            + cp.getHubSn());
+            logger.info("AzureProperties.wanAddress = "
+                            + cp.getWanAddress());
+            logger.info("AzureProperties.iotHub = "
+                            + cp.getIotHub());
+    }
+    
     @PostConstruct
     public void initilize(){
         logger.info("------------------------------------------------------------");
@@ -19,6 +33,7 @@ public class AppInitialization implements CommandLineRunner {
         if(!PortHandler.getHandler().getIsComPortOpen()){
             PortHandler.getHandler().toggleComPort();
         }
+        
         logger.info("------------------------------------------------------------");
         logger.info("-------------{ Just After ComPort initialized }-------------");
     }

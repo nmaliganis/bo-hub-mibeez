@@ -6,9 +6,7 @@ public class AckInboundCommandBuilder extends HubInboundCommandBuilder
 
     @Override
     public void build(byte[] hubPackage) {
-        buildInboundMessage(hubPackage);
-        Thread t0 = new Thread(this);
-        t0.start();
+        buildAndSendAsync(hubPackage);
     }
 
     @Override
