@@ -84,6 +84,7 @@ public abstract class HubInboundCommandBuilder implements Runnable{
                 sb.append("-");
             }break;
         }
+        //Todo: Check for Errors in Y
         for (int i = 0; i < HubPackageRepository.getInstance().getTiltDataLen(); i++)
         {
             sb.append((hubPackage[HubPackageRepository.getInstance().getTiltValueOffset() + i +
@@ -107,7 +108,11 @@ public abstract class HubInboundCommandBuilder implements Runnable{
         }
 
         buildOutMessage(MessageStatus.MESSAGE_DEBUG, String.format("Tilt Value:%s", sb.toString()));
-        return sb.toString();
+        //return sb.toString();
+        if(sb.toString().contains("90"))
+            return "true";
+        else
+            return "false";
     }
 
     private String extractTempValue(TempType type, byte[] hubPackage)
